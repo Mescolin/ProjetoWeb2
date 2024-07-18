@@ -1,0 +1,141 @@
+{
+  "Header": {
+    "title": "Pizzaria Quem Dirias",
+    "paragraph": "O melhor lugar para você e sua família, com cardápio variado, pizzas, porções, drinks e muito mais. "
+  },
+  "About": {
+    "paragraph": "Nossa história comçou com Luís e Rita, donos do negócio e empreendedores natos. Essa foto foi tirada na sua primeira pizzaria, lá deu-se inínio a essa linda história, de amor e de pizza",
+    "Why": [
+      "Mais de 30 anos no ramo",
+      "Sabores variados",
+      "Ambiente amplo",
+      "Espaço para festas"
+    ],
+    "Why2": [
+      "Espaço para crianças",
+      "Música ao vivo",
+      "Drinks especiais",
+      "Atendimentos e entregas"
+    ]
+  },
+  "Gallery": [
+    {
+      "title": "Project Title",
+      "largeImage": "img/portfolio/10-large.jpg",
+      "smallImage": "img/portfolio/10-small.jpg"
+    },
+    {
+      "title": "Project Title",
+      "largeImage": "img/portfolio/11-large.jpg",
+      "smallImage": "img/portfolio/11-small.jpg"
+    },
+    {
+      "title": "Project Title",
+      "largeImage": "img/portfolio/03-large.jpg",
+      "smallImage": "img/portfolio/12-small.jpg"
+    }
+    
+  ],
+  "Services": [
+    {
+      "icon": "fa fa-music",
+      "name": "Músicas ao vivo",
+      "text": "Desfrute de uma noite incrível com música ao vivo todos os sábados na nossa pizzaria! Venha saborear nossas deliciosas pizzas ao som de grandes talentos musicais."
+    },
+    {
+      "icon": "fa fa-cutlery",
+      "name": "Cardápio variado",
+      "text": "Venha provar os deliciosos pratos do nosso cardápio, com uma variedade incrível de pizzas e porções. Sabores e opções irresistíveis para todos os gostos!"
+    },
+    {
+      "icon": "fa fa-sun-o",
+      "name": "Ambinte agradável",
+      "text": "Desfrute de um ambiente agradável e fresco na nossa pizzaria, perfeito para reunir amigos e família. Venha relaxar e se divertir em um espaço acolhedor!"
+    }
+    
+  ],
+  "Testimonials": [
+    {
+      "img": "img/testimonials/01.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/02.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    },
+    {
+      "img": "img/testimonials/03.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/04.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    },
+    {
+      "img": "img/testimonials/05.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/06.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    }
+  ],
+  "Team": [
+    {
+      "img": "img/team/02.jpg",
+      "name": "Bruna dos Anjos",
+      "job": "Diretora de Marketing"
+    },
+    {
+      "img": "img/team/01.jpg",
+      "name": "Amanda Mescolin",
+      "job": "Gerente Financeira"
+    },
+    {
+      "img": "img/team/03.jpg",
+      "name": "Daniel Mescolin",
+      "job": "CO-CEO"
+    },
+    {
+      "img": "img/team/04.jpg",
+      "name": "Vitola vilela",
+      "job": "Desenvolvedor de sistemas"
+    }
+  ],
+  "Contact": {
+    "address": "Pizzaria Quem Dirias, R. Maj. Viêira, 715 - Centro, Cataguases - MG, 36770-060",
+    "phone": "(32) 3421-5209",
+    "email": "info@company.com",
+    "facebook": "fb.com",
+    "twitter": "twitter.com",
+    "youtube": "youtube.com"
+  },
+  "Features": [
+    {
+      "icon": "fa fa-comments-o",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-bullhorn",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-group",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-magic",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    }
+  ]
+}
