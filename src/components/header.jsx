@@ -1,4 +1,5 @@
 import React from "react";
+import Box from '@mui/material/Box';
 
 export const Header = (props) => {
   return (
@@ -11,14 +12,25 @@ export const Header = (props) => {
                 <h1>
                   {props.data ? props.data.title : "Loading"}
                   <span></span>
-                </h1>
+                </h1>z
                 <p>{props.data ? props.data.paragraph : "Loading"}</p>
-                <a
-                  href="#features"
-                  className="btn btn-custom btn-lg page-scroll"
+                <Box
+                  display="contents"
+                  alignItems="center"
+                  flex-direction="column"
                 >
-                  Saiba mais
-                </a>{" "}
+                  <a
+                    href="#features"
+                    className="btn btn-custom btn-lg page-scroll"
+                  >
+                    Saiba mais
+                  </a>{" "}
+                  <a
+                    className="btn btn-custom btn-lg page-scroll"
+                  >
+                    Calcule o tempo de entrega
+                  </a>
+                </Box>
               </div>
             </div>
           </div>
