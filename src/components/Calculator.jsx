@@ -1,58 +1,117 @@
-import React from "react";
-import { Container } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Container, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import Button from '@mui/material/Button';
 
 // Google Maps Distance Matrix API
 
 export const Calculator = () => {
     const [distance, setDistance] = useState("");
     const [duration, setDuration] = useState("");
+    const [destinations, setDestinations] = useState("");
+    const [cep, setCep] = useState("");
+
+    const getDestinationsbyCEP = async () => {
+        try {
+            const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            console.log(data.logradouro + ", " + data.bairro + ", " + data.localidade + " - " + data.uf);
+            setDestinations(data.logradouro + ", " + data.bairro + ", " + data.localidade + " - " + data.uf);
+        } catch {
+
+        }
+    }
+
+    useEffect(() => {
+        if (destinations) {
+            getDistanceMatrix();
+        }
+    }, [destinations]);
 
     const getDistanceMatrix = async () => {
         const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
         console.log(apiKey);
-        const origins = "Av. Astolfo Dutra, 70 - Centro, Cataguases - MG, 36770-001";
-        const destinations = "Praça Manoel Inácio Peixoto, 136 - Centro, Cataguases - MG, 36770-071";
+        const origins = "Avenida Astolfo Dutra, Centro, Cataguases - MG";
+        const dest = destinations;
         //ativar o link abaixo para poder fazer a request
         //https://cors-anywhere.herokuapp.com/corsdemo
-        const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origins}&destinations=${destinations}&key=${apiKey}`
-        console.log(url);
+        const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origins}&destinations=${dest}&key=${apiKey}`
         const response = await axios.get(url);
 
         const data = response.data;
         if (data.rows[0].elements[0].status == "OK") {
+            const tempoEmSegundos = data.rows[0].elements[0].duration.value;
+            const tempoEmMinutos = tempoEmSegundos / 60;
+            const tempoTotalEmMinutos = tempoEmMinutos + 40;
+            const horas = Math.floor(tempoTotalEmMinutos / 60);
+            const minutos = tempoTotalEmMinutos % 60;
+            if (horas == 0) {
+                setDuration(`${minutos} minuto(s)`);
+            }
+            else {
+                setDuration(`${horas} hora(s) e ${minutos} minuto(s)`);
+            }
             setDistance(data.rows[0].elements[0].distance.text);
-            setDuration(data.rows[0].elements[0].duration.text);
-            console.log(data.rows[0].elements[0].distance.text);
-            alert(distance);
         } else {
-            alert("Error fetching data from Google Maps API");
-            console.error("Error fetching data from Google Maps API");
+            alert("Ocorreu um erro ao calcular a distância! Tente novamente.");
         }
     };
     return (
-        <Container
-            //cor de fundo
+        <Stack
+            direction="column"
+            alignContent={"center"}
+            justifyContent={"center"}
             style={{
-                backgroundColor: "#f8f9fa",
-                padding: "100px 0",
                 textAlign: "center",
-                color: "#000",
             }}
         >
             <div className="col-md-10 col-md-offset-1 section-title">
                 <h2>Vamos calular o tempo de entrega</h2>
             </div>
 
-            <div>
-                <button onClick={getDistanceMatrix}>Get Distance</button>
-                {distance && <p>Distance: {distance}</p>}
-                {duration && <p>Duration: {duration}</p>}
-            </div>
+            <Stack
+                direction="column"
+                spacing={2}
+                alignItems="center"
+            >
+                <TextField
+                    label="CEP"
+                    error
+                    size="medium"
+                    InputLabelProps={{
+                        sx: { fontSize: '1.5rem' },
+                    }}
+                    InputProps={{
+                        style: { fontSize: '2rem' },
+                    }}
+                    onChange={(e) => setCep(e.target.value)}
+
+                />
+                <Button
+                    variant="contained"
+                    sx={{
+                        backgroundColor: "#ED250A",
+                        color: "#fff",
+                        borderRadius: "50px",
+                        width: "250px",
+                        height: "7rem",
+                        fontSize: "1.5rem",
+                        '&:hover': {
+                            backgroundColor: '#C53523',
+                        },
+                    }}
+                    onClick={getDestinationsbyCEP}
+                >
+                    Calcular Tempo de Entrega
+                </Button>
+
+                {duration && <Typography variant="subtitle1" component="div" sx={{
+                    fontSize: '2rem'
+                }}>Estimativa de duração da entrega: {duration}</Typography>}
+            </Stack>
 
 
-        </Container>
+        </Stack>
 
     );
 };
