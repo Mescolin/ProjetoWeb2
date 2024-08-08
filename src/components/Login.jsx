@@ -1,9 +1,9 @@
 import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
-import FormCadastro from './forms/FormCadastro';
+import FormLogin from './forms/FormLogin';
 
 
-const Cadastro = () => {
+const Login = () => {
 
     return (
         <Box
@@ -22,13 +22,13 @@ const Cadastro = () => {
                 color={"#fff"}
                 component="div"
             >
-                Cadastro
+                Login
             </Typography>
             <Stack>
-                <FormCadastro />
+                <FormLogin />
             </Stack>
         </Box>
     );
 };
 
-export default Cadastro;
+export default Login;
