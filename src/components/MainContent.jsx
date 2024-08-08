@@ -1,5 +1,4 @@
 import React from "react";
-import { Navigation } from "./navigation";
 import { Header } from "./header";
 import { Features } from "./features";
 import { About } from "./about";

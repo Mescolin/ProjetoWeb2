@@ -5,6 +5,7 @@ import "./App.css";
 import MainContent from "./components/MainContent";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Catalogo from "./components/Catalogo";
+import Cadastro from "./components/Cadastro";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
@@ -23,6 +24,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainContent landingPageData={landingPageData} />} />
         <Route path="/Catalogo" element={<Catalogo />} />
+        <Route path="/cadastro" element={<Cadastro />} />
       </Routes>
     </Router>
   );

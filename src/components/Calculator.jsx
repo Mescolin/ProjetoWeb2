@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Container, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import Button from '@mui/material/Button';
@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 // Google Maps Distance Matrix API
 
 export const Calculator = () => {
-    const [distance, setDistance] = useState("");
+    const [setDistance] = useState("");
     const [duration, setDuration] = useState("");
     const [destinations, setDestinations] = useState("");
     const [cep, setCep] = useState("");
