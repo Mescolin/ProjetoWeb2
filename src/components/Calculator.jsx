@@ -42,9 +42,9 @@ export const Calculator = () => {
         if (data.rows[0].elements[0].status == "OK") {
             const tempoEmSegundos = data.rows[0].elements[0].duration.value;
             const tempoEmMinutos = tempoEmSegundos / 60;
-            const tempoTotalEmMinutos = tempoEmMinutos + 40;
+            const tempoTotalEmMinutos = tempoEmMinutos + 50;
             const horas = Math.floor(tempoTotalEmMinutos / 60);
-            const minutos = tempoTotalEmMinutos % 60;
+            const minutos = Math.round(tempoTotalEmMinutos % 60);
             if (horas == 0) {
                 setDuration(`${minutos} minuto(s)`);
             }
