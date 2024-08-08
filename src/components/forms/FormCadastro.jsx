@@ -79,6 +79,19 @@ const FormCadastro = () => {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label='Email'
+                placeholder='exemplo@email.com'
+                InputLabelProps={{
+                  sx: { fontSize: '1.5rem' },
+                }}
+                InputProps={{
+                  style: { fontSize: '2rem' },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <FormControl fullWidth>
                 <PasswordInput
                   label="Senha"

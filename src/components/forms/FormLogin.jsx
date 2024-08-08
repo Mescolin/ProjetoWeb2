@@ -52,8 +52,8 @@ const FormLogin = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label='Telefone'
-                placeholder='(32) 99999-9999'
+                label='email'
+                placeholder='exemplo@email.com'
                 InputLabelProps={{
                   sx: { fontSize: '1.5rem' },
                 }}
