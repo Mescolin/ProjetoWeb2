@@ -7,8 +7,7 @@ export const Team = (props) => {
         <div className="col-md-8 col-md-offset-2 section-title">
           <h2>Conheça nossa equipe</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-            dapibus leonec.
+            Esses são os integrantes e colaboradores do projeto, que estão sempre dispostos a ajudar e aprimorar a sua experiência.
           </p>
         </div>
         <div id="row">
