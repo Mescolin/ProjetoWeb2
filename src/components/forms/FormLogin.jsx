@@ -1,5 +1,8 @@
 // ** React Imports
 import React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+
 // import { useState } from 'react'
 
 
@@ -13,12 +16,43 @@ import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import PasswordInput from '../PasswordInput/PasswordInput';
 import { Stack, Typography } from '@mui/material';
+import { LineAxisOutlined } from '@mui/icons-material';
 
 
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
 
 const FormLogin = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [user,setUser] = useState(null);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    console.log(email, password);
+    
+    try{
+      const response = axios.post('http://localhost:8080/usuario/login',
+        JSON.stringify({email, password}),
+        {
+          headers:{'Content-Type': 'application/json'}
+        }
+      );
+
+      console.log(response.data);
+
+    }catch(error){
+      if(!error?.response){
+        setError('Erro ao acessar o servior');
+      } else if (error.response.status === 401) {
+        setError('Email ou senha inválidos');
+      }
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -54,6 +88,8 @@ const FormLogin = () => {
                 fullWidth
                 label='email'
                 placeholder='exemplo@email.com'
+                required
+                onChange={(e) => setEmail(e.target.value)}
                 InputLabelProps={{
                   sx: { fontSize: '1.5rem' },
                 }}
@@ -66,6 +102,7 @@ const FormLogin = () => {
               <FormControl fullWidth>
                 <PasswordInput
                   label="Senha"
+                  onChange={(e) => setPassword(e.target.value)}
                 >
                 </PasswordInput>
               </FormControl>
@@ -81,6 +118,7 @@ const FormLogin = () => {
               >
                 <Button
                   variant="contained"
+                  onClick={(e)=>handleLogin(e)}
                   sx={{
                     backgroundColor: "#ED250A",
                     color: "#fff",
@@ -107,9 +145,10 @@ const FormLogin = () => {
             </Grid>
           </Grid>
         </form>
+        <p>{error}</p>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export default FormLogin

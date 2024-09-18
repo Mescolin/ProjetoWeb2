@@ -1,26 +1,80 @@
 // ** React Imports
 import React from 'react';
-// import { useState } from 'react'
+import { useState } from 'react';
+import axios from 'axios';
 
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import { Stack, Typography } from '@mui/material';
 
-
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-
 const FormCadastro = () => {
   // ** States
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [logradouro, setLogradouro] = useState('');
+  const [numero, setNumero] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [cidade, setCidade] = useState('');
+  const [estado, setEstado] = useState('');
+  const [cep, setCep] = useState('');
+  const [error, setError] = useState('');
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log({
+      nome,
+      email,
+      senha,
+      logradouro,
+      numero,
+      bairro,
+      cidade,
+      estado,
+      cep
+    });
+    
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/usuario/register',
+        JSON.stringify({
+          nome,
+          email,
+          senha,
+          logradouro,
+          numero,
+          bairro,
+          cidade,
+          estado,
+          cep
+        }),
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+
+      console.log(response.data);
+
+
+    } catch (error) {
+      if (!error?.response) {
+        setError('Erro ao acessar o servidor');
+      } else if (error.response.status === 400) {
+        setError('Erro nos dados de cadastro. Verifique os campos preenchidos.');
+      } else {
+        setError('Ocorreu um erro ao cadastrar.');
+      }
+    }
+  };
 
   return (
     <Card
@@ -47,16 +101,17 @@ const FormCadastro = () => {
         >
           Insira suas informações
         </Typography>
-
       </Stack>
       <CardContent>
-        <form onSubmit={e => e.preventDefault()}>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label='Nome'
-                placeholder='Leonard Carter'
+                label="Nome"
+                placeholder="Leonard Carter"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 InputLabelProps={{
                   sx: { fontSize: '1.5rem' },
                 }}
@@ -68,21 +123,10 @@ const FormCadastro = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label='Telefone'
-                placeholder='(32) 99999-9999'
-                InputLabelProps={{
-                  sx: { fontSize: '1.5rem' },
-                }}
-                InputProps={{
-                  style: { fontSize: '2rem' },
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label='Email'
-                placeholder='exemplo@email.com'
+                label="Email"
+                placeholder="exemplo@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 InputLabelProps={{
                   sx: { fontSize: '1.5rem' },
                 }}
@@ -95,21 +139,98 @@ const FormCadastro = () => {
               <FormControl fullWidth>
                 <PasswordInput
                   label="Senha"
-                >
-                </PasswordInput>
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <TextField
-                  password
+                  label="Logradouro"
+                  value={logradouro}
+                  onChange={(e) => setLogradouro(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
                   InputProps={{
                     style: { fontSize: '2rem' },
                   }}
-                  label='Endereço'
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Número"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Bairro"
+                  value={bairro}
+                  onChange={(e) => setBairro(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Cidade"
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Estado"
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="CEP"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
                 />
               </FormControl>
             </Grid>
@@ -119,11 +240,13 @@ const FormCadastro = () => {
                   display: 'flex',
                   flexWrap: 'wrap',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
                 }}
               >
                 <Button
+                  type="submit"
                   variant="contained"
+                  onClick={(e)=>handleSubmit(e)}
                   sx={{
                     backgroundColor: "#ED250A",
                     color: "#fff",
@@ -142,7 +265,7 @@ const FormCadastro = () => {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    '& a': { color: 'primary.main', textDecoration: 'none' }
+                    '& a': { color: 'primary.main', textDecoration: 'none' },
                   }}
                 >
                 </Box>
@@ -152,7 +275,7 @@ const FormCadastro = () => {
         </form>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default FormCadastro
+export default FormCadastro;
