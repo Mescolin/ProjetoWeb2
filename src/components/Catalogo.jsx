@@ -1,5 +1,6 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
-import React from 'react';
+import { AppBar, Box, Button, Card, CardContent, CardMedia, Divider, Drawer, Grid, List, ListItem, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import HeaderCatalogo from './HeaderCatalogo';
 
 
 const Catalogo = () => {
@@ -65,100 +66,150 @@ const Catalogo = () => {
             "url": "https://i.ytimg.com/vi/LxiWkcWI0js/maxresdefault.jpg"
         }
     ];
+    const [carrinho, setCarrinho] = useState([]);
+    const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+
+    const adicionarAoCarrinho = (pizza) => {
+        setCarrinho([...carrinho, pizza]);
+        setCarrinhoAberto(true);
+    };
+
+    const fecharCarrinho = () => {
+        setCarrinhoAberto(false);
+    };
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-                backgroundColor: '#000',
-            }}
-        >
-            <Typography
-                gutterBottom
-                variant="h2"
-                color={"#fff"}
-                component="div"
+        <div>
+            <HeaderCatalogo />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '100vh',
+                    backgroundColor: '#000',
+                }}
             >
-                Cardápio
-            </Typography>
-            <Grid
-                container
-                spacing={3}
-                p={12}
-            >
-                {pizzas.map((pizza) => (
-                    <Grid item xs={8} sm={3} md={3} key={pizza.nome}>
-                        <Card sx={{ maxWidth: 400 }}>
-                            <CardMedia
-                                component="img"
-                                alt={pizza.nome}
-                                height="100"
-                                image={pizza.url}
-                            />
-                            <CardContent
-                                sx={{
-                                    backgroundColor: '#1E1E1E',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                    alignItems="center"
-                                    justifyContent="flex-end"
-                                    mt={1}
+                <Grid
+                    container
+                    spacing={3}
+                    p={12}
+                >
+                    {pizzas.map((pizza) => (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={pizza.nome}>
+                            <Card sx={{ width: '100%', height: 230, border: '2px solid red', backgroundColor: '#1E1E1E', }}>
+                                <CardMedia
+                                    component="img"
+                                    alt={pizza.nome}
+                                    height="110"
+                                    image={pizza.url}
+                                />
+                                <CardContent
+                                    sx={{
+                                        backgroundColor: '#1E1E1E',
+                                        alignItems: 'center',
+                                    }}
                                 >
-                                    <Box
-                                        width={450}
+                                    <Stack
+                                        direction="row"
+                                        spacing={2}
+                                        alignItems="center"
+                                        justifyContent="flex-end"
+                                        mt={1}
                                     >
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            color={"#fff"}
-                                            component="div"
+                                        <Box
+                                            width="100%"
                                         >
-                                            {pizza.nome}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="#fff"
-                                            fontSize={16}
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                color={"#fff"}
+                                                component="div"
+                                            >
+                                                {pizza.nome}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                color="#fff"
+                                                fontSize={16}
+                                            >
+                                                R$ {pizza.valor.toFixed(2)}
+                                            </Typography>
+                                        </Box>
+                                        <Box
                                         >
-                                            R$ {pizza.valor.toFixed(2)}
-                                        </Typography>
-                                    </Box>
-                                    <Box
-                                    >
 
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            sx={{
-                                                backgroundColor: "#ED250A",
-                                                color: "#fff",
-                                                width: "200px",
-                                                height: "4.5rem",
-                                                fontSize: "1.3rem",
-                                                '&:hover': {
-                                                    backgroundColor: '#C53523',
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                sx={{
+                                                    backgroundColor: "#ED250A",
                                                     color: "#fff",
-                                                },
-                                            }}
-                                        >
-                                            Comprar
-                                        </Button>
-                                    </Box>
-                                </Stack>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-        </Box>
+                                                    width: "200px",
+                                                    height: "4.5rem",
+                                                    fontSize: "1.3rem",
+                                                    '&:hover': {
+                                                        backgroundColor: '#C53523',
+                                                        color: "#fff",
+                                                    },
+                                                }}
+                                                onClick={() => adicionarAoCarrinho(pizza)}
+                                            >
+                                                Comprar
+                                            </Button>
+                                        </Box>
+                                    </Stack>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
+
+            <Drawer anchor="right" open={carrinhoAberto} onClose={fecharCarrinho}>
+                <Box sx={{ width: 350, padding: 2 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Carrinho de Compras
+                    </Typography>
+                    <Divider />
+                    <List>
+                        {carrinho.map((item, index) => (
+                            <ListItem key={index}>
+                                <Box
+                                    sx={{ border: '2px solid red', borderRadius: 2, width: '100%', }}
+                                >
+                                    <ListItemText
+                                        primary={item.nome}
+                                        secondary={`R$ ${item.valor.toFixed(2)}`}
+                                        sx={{
+                                            '& .MuiListItemText-primary': { fontSize: '1.5rem' },
+                                            '& .MuiListItemText-secondary': { fontSize: '1.2rem' }
+                                        }}
+                                    />
+
+                                </Box>
+                            </ListItem>
+                        ))}
+                    </List>
+                    <AppBar position="absolute" sx={{ bgcolor: 'red', alignItems: 'center', top: "92.5vh" }}>
+                        <Toolbar sx={{ justifyContent: 'space-between', width: '100%' }}>
+                            <Typography
+                                gutterBottom
+                                variant="h6"
+                                color={"#fff"}
+                                component="div"
+                            >
+                                Total
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                R$ {carrinho.reduce((acc, item) => acc + item.valor, 0).toFixed(2)}
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+            </Drawer>
+        </div>
     );
 };
 

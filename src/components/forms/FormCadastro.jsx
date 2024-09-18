@@ -42,7 +42,7 @@ const FormCadastro = () => {
       estado,
       cep
     });
-    
+
     try {
       const response = await axios.post(
         'http://localhost:8080/usuario/register',
@@ -61,13 +61,19 @@ const FormCadastro = () => {
           headers: { 'Content-Type': 'application/json' }
         }
       );
+      localStorage.setItem('nome', response.data.data.nome);
+      localStorage.setItem('id', response.data.data.id_usuario);
 
-      console.log(response.data);
-
+      alert('Cadastro realizado com sucesso');
+      setTimeout(() => {
+        window.location.href = '/catalogo';
+      }, 5000);
 
     } catch (error) {
       if (!error?.response) {
+        alert('Não foi possível acessar o servidor');
         setError('Erro ao acessar o servidor');
+        alert(error.response.data.message);
       } else if (error.response.status === 400) {
         setError('Erro nos dados de cadastro. Verifique os campos preenchidos.');
       } else {
@@ -144,12 +150,12 @@ const FormCadastro = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <TextField
-                  label="Logradouro"
-                  value={logradouro}
-                  onChange={(e) => setLogradouro(e.target.value)}
+                  label="CEP"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
@@ -159,37 +165,7 @@ const FormCadastro = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Número"
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
-                  InputLabelProps={{
-                    sx: { fontSize: '1.5rem' },
-                  }}
-                  InputProps={{
-                    style: { fontSize: '2rem' },
-                  }}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Bairro"
-                  value={bairro}
-                  onChange={(e) => setBairro(e.target.value)}
-                  InputLabelProps={{
-                    sx: { fontSize: '1.5rem' },
-                  }}
-                  InputProps={{
-                    style: { fontSize: '2rem' },
-                  }}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <TextField
                   label="Cidade"
@@ -204,12 +180,12 @@ const FormCadastro = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <TextField
-                  label="Estado"
-                  value={estado}
-                  onChange={(e) => setEstado(e.target.value)}
+                  label="Logradouro"
+                  value={logradouro}
+                  onChange={(e) => setLogradouro(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
@@ -219,12 +195,43 @@ const FormCadastro = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <TextField
-                  label="CEP"
-                  value={cep}
-                  onChange={(e) => setCep(e.target.value)}
+                  label="Número"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Bairro"
+                  value={bairro}
+                  onChange={(e) => setBairro(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Estado"
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
@@ -246,7 +253,7 @@ const FormCadastro = () => {
                 <Button
                   type="submit"
                   variant="contained"
-                  onClick={(e)=>handleSubmit(e)}
+                  onClick={(e) => handleSubmit(e)}
                   sx={{
                     backgroundColor: "#ED250A",
                     color: "#fff",

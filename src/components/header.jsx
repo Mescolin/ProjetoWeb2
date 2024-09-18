@@ -7,6 +7,46 @@ export const Header = (props) => {
   return (
     <header id="header">
       <div className="intro">
+        <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/login"
+            sx={{
+              backgroundColor: "#C53523",
+              color: "#fff",
+              borderRadius: "50px",
+              width: "200px",
+              height: "4.5rem",
+              fontSize: "1.3rem",
+              '&:hover': {
+                backgroundColor: '#ED250A',
+                color: "#fff",
+              },
+            }}
+          >
+            Entrar
+          </Button>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/cadastro"
+            sx={{
+              backgroundColor: "#C53523",
+              color: "#fff",
+              borderRadius: "50px",
+              width: "200px",
+              height: "4.5rem",
+              fontSize: "1.3rem",
+              '&:hover': {
+                backgroundColor: '#ED250A',
+                color: "#fff",
+              },
+            }}
+          >
+            Cadastar
+          </Button>
+        </div>
         <div className="overlay">
           <div className="container">
             <div className="row">
@@ -58,7 +98,6 @@ export const Header = (props) => {
                   >
                     Encomendar Agora
                   </Button>
-
                 </Box>
               </div>
             </div>

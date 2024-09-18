@@ -15,8 +15,10 @@ import TextField from '@mui/material/TextField'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import PasswordInput from '../PasswordInput/PasswordInput';
-import { Stack, Typography } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { LineAxisOutlined } from '@mui/icons-material';
+import { red } from '@mui/material/colors';
+import { toast } from 'react-toastify';
 
 
 // ** Icon Imports
@@ -25,31 +27,45 @@ import { LineAxisOutlined } from '@mui/icons-material';
 const FormLogin = () => {
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [user,setUser] = useState(null);
+  const [senha, setSenha] = useState('');
+  const [erroMsg, setErrorMsg] = useState('');
+  const [error, setError] = useState(Boolean);
+  const [loanding, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log(email, password);
-    
-    try{
-      const response = axios.post('http://localhost:8080/usuario/login',
-        JSON.stringify({email, password}),
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:8080/usuario/login',
+        JSON.stringify({ email, senha }),
         {
-          headers:{'Content-Type': 'application/json'}
+          headers: { 'Content-Type': 'application/json' }
         }
       );
+      localStorage.setItem('nome', response.data.data.nome);
+      localStorage.setItem('id', response.data.data.id);
+      setError(false);
 
-      console.log(response.data);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.href = '/catalogo';
+      }, 5000);
+      setErrorMsg('');
 
-    }catch(error){
-      if(!error?.response){
-        setError('Erro ao acessar o servior');
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+      setErrorMsg(error.response.data.message);
+      toast.error(error.response.data.message);
+      alert(error.response.data.message);
+      if (!error?.response) {
       } else if (error.response.status === 401) {
         setError('Email ou senha inválidos');
       }
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -85,6 +101,7 @@ const FormLogin = () => {
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <TextField
+                error={error ? true : false}
                 fullWidth
                 label='email'
                 placeholder='exemplo@email.com'
@@ -101,10 +118,12 @@ const FormLogin = () => {
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <PasswordInput
+                  error={error ? true : false}
                   label="Senha"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setSenha(e.target.value)}
                 >
                 </PasswordInput>
+                {error ? <Typography sx={{ color: red[500], fontSize: '1.5rem' }}>{erroMsg}</Typography> : ''}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
@@ -118,7 +137,7 @@ const FormLogin = () => {
               >
                 <Button
                   variant="contained"
-                  onClick={(e)=>handleLogin(e)}
+                  onClick={(e) => handleLogin(e)}
                   sx={{
                     backgroundColor: "#ED250A",
                     color: "#fff",
@@ -131,7 +150,7 @@ const FormLogin = () => {
                     },
                   }}
                 >
-                  Logar
+                  {loanding ? <CircularProgress color="inherit" /> : 'Entrar'}
                 </Button>
                 <Box
                   sx={{
