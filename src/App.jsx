@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Catalogo from "./components/Catalogo";
 import Cadastro from "./components/Cadastro";
 import Login from "./components/Login";
+import EditarPizza from "./components/EditarPizza";
+import PaginaConfirmacao from "./components/PaginaConfirmacao";
 
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
@@ -28,6 +30,8 @@ const App = () => {
         <Route path="/Catalogo" element={<Catalogo />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/EditarPizza" element={<EditarPizza />} />
+        <Route path="/PaginaConfirmacao" element={<PaginaConfirmacao />} />
       </Routes>
     </Router>
   );
