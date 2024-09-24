@@ -1,77 +1,97 @@
-// ** React Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
 
 // ** MUI Imports
 import Box from '@mui/material/Box';
-import autocomplete from '@mui/material/Autocomplete';
+import
+Autocomplete from '@mui/material/Autocomplete';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+import
+Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CardContent from '@mui/material/CardContent';
 import FormControl from '@mui/material/FormControl';
-import PasswordInput from '../PasswordInput/PasswordInput';
 import { Stack, Typography } from '@mui/material';
 
 
 const FormPizza = () => {
   // ** States
   const [nome, setNome] = useState('');
-  const [sabor, setSabor] = useState('');
-  const [milho, setMilho] = useState('');
-  const [cebola, setCebola] = useState('');
-  const [valor, setValor] = useState('');
-  const [tomate, setTomate] = useState('');
-  const [error, setError] = useState('');
+  const [ingredientes, setIngredientes] = useState('');
+  const [preco, setPreco] = useState('');
+  const [img_url, setImgUrl] = useState('');
+  const [pizzas, setPizzas] = useState([]);
+  const [selectedPizza, setSelectedPizza] = useState(null); // Para armazenar a pizza selecionada
+
+  useEffect(() => {
+    const fetchPizzas = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/pizza');
+        const data = await response.json();
+        setPizzas(data.data);
+      } catch (error) {
+        console.error('Erro ao buscar pizzas:', error);
+      }
+    };
+    fetchPizzas();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!selectedPizza) {
+      alert('Selecione uma pizza para editar!');
+      return;
+    }
+
     console.log({
       nome,
-      sabor,
-      milho,
-      cebola,
-      valor,
-      tomate
+      ingredientes,
+      preco,
+      img_url
     });
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/usuario/register',
+      const response = await axios.put(
+        `http://localhost:8080/pizza/${selectedPizza.id}`, // Usar o ID da pizza selecionada
         JSON.stringify({
           nome,
-          sabor,
-          milho,
-          cebola,
-          valor,
-          tomate
+          ingredientes,
+          preco,
+          img_url
         }),
         {
           headers: { 'Content-Type': 'application/json' }
         }
       );
-      localStorage.setItem('nome', response.data.data.nome);
-      localStorage.setItem('id', response.data.data.id_usuario);
+      console.log(response);
 
-      alert('Cadastro realizado com sucesso');
-      setTimeout(() => {
-        window.location.href = '/catalogo';
-      }, 5000);
+      alert('Pizza editada com sucesso!');
 
     } catch (error) {
       if (!error?.response) {
         alert('Não foi possível acessar o servidor');
-        setError('Erro ao acessar o servidor');
         alert(error.response.data.message);
-      } else if (error.response.status === 400) {
-        setError('Erro nos dados de cadastro. Verifique os campos preenchidos.');
-      } else {
-        setError('Ocorreu um erro ao cadastrar.');
       }
+    }
+  };
+
+
+  const handlePizzaSelect = (event, newValue) => {
+    setSelectedPizza(newValue);
+    if (newValue) {
+      setNome(newValue.nome);
+      setIngredientes(newValue.ingredientes);
+      setPreco(newValue.preco);
+      setImgUrl(newValue.img_url);
+    } else {
+      setNome('');
+      setIngredientes('');
+      setPreco('');
+      setImgUrl('');
     }
   };
 
@@ -101,16 +121,40 @@ const FormPizza = () => {
           Altere as informações das Pizzas aqui
         </Typography>
       </Stack>
+
       <CardContent>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
+              <Autocomplete
+                options={pizzas}
+                getOptionLabel={(option) => option.nome}
+                value={selectedPizza}
+                onChange={handlePizzaSelect}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Selecione a pizza"
+                    variant="outlined"
+                    fullWidth
+                    InputLabelProps={{
+                      sx: { fontSize: '1.5rem' },
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      style: { fontSize: '2rem' },
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Tamanho"
-                placeholder="Pequena, Média, Grande, Gigante ou GG"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
+                label="ingredientes"
+                placeholder="Banana, canela, açúcar"
+                value={ingredientes}
+                onChange={(e) => setIngredientes(e.target.value)}
                 InputLabelProps={{
                   sx: { fontSize: '1.5rem' },
                 }}
@@ -120,59 +164,12 @@ const FormPizza = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Sabores"
-                placeholder="Portuugesa 1/2 Frango com Catupiry"
-                value={sabor}
-                onChange={(e) => setSabor(e.target.value)}
-                InputLabelProps={{
-                  sx: { fontSize: '1.5rem' },
-                }}
-                InputProps={{
-                  style: { fontSize: '2rem' },
-                }}
-              />
-            </Grid>
-            <Grid item xs={4}>
               <FormControl fullWidth>
                 <TextField
-                  label="Toamte"
-                  value={tomate}
-                  placeholder="Sim ou não"
-                  onChange={(e) => setTomate(e.target.value)}
-                  InputLabelProps={{
-                    sx: { fontSize: '1.5rem' },
-                  }}
-                  InputProps={{
-                    style: { fontSize: '2rem' },
-                  }}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Cebola"
-                  placeholder="Sim ou não"
-                  value={cebola}
-                  onChange={(e) => setCebola(e.target.value)}
-                  InputLabelProps={{
-                    sx: { fontSize: '1.5rem' },
-                  }}
-                  InputProps={{
-                    style: { fontSize: '2rem' },
-                  }}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Milho"
-                  placeholder="Sim ou não"
-                  value={milho}
-                  onChange={(e) => setMilho(e.target.value)}
+                  label="nome"
+                  value={nome}
+                  placeholder="pizza 2"
+                  onChange={(e) => setNome(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
@@ -185,10 +182,26 @@ const FormPizza = () => {
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <TextField
-                  label="Valor"
-                  value={valor}
+                  label="preco"
+                  value={preco}
                   placeholder="R$ 00,00"
-                  onChange={(e) => setValor(e.target.value)}
+                  onChange={(e) => setPreco(e.target.value)}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.5rem' },
+                  }}
+                  InputProps={{
+                    style: { fontSize: '2rem' },
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="url da imagem"
+                  value={img_url}
+                  placeholder="R$ 00,00"
+                  onChange={(e) => setImgUrl(e.target.value)}
                   InputLabelProps={{
                     sx: { fontSize: '1.5rem' },
                   }}
